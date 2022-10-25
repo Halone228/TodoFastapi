@@ -1,14 +1,15 @@
 import datetime
 
-from pydantic import BaseModel, validator, ValidationError
+from pydantic import BaseModel, validator, ValidationError, EmailStr
 from .db_models import User as User_db
 
 _T_id = int | str
 
 
-class User(BaseModel):
+class UserRegister(BaseModel):
     username: str
     password: str
+    email: EmailStr
 
     @validator('username')
     def validate_username(self, username: str):
@@ -18,6 +19,20 @@ class User(BaseModel):
             return username
         else:
             raise ValidationError
+
+    class Config:
+        schema_extra = {
+            'example': {
+                'username': 'user123',
+                'password': 'asdasd1234',
+                'email': 'example@gmail.com'
+            }
+        }
+
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
 
 class Group(BaseModel):

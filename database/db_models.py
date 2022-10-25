@@ -20,6 +20,7 @@ class User(BaseModel):
     id = AutoField(primary_key=True)
     username = TextField(unique=True)
     password = TextField()
+    email = TextField(unique=True)
 
 
 class Group(BaseModel):

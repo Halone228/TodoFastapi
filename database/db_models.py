@@ -39,3 +39,9 @@ class Todos(BaseModel):
     text = TextField()
     deadline_date = DateField()
     status = TextField()
+
+
+def init():
+    User.create_table()
+    Group.create_table()
+    Todos.create_table()

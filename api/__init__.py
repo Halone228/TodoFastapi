@@ -1,8 +1,3 @@
-from fastapi import FastAPI
+from .auth import AuthRouter
+from .main import RestRouter
 
-app = FastAPI()
-
-
-@app.get("/")
-async def root():
-    return RedirectResponse('/docs')

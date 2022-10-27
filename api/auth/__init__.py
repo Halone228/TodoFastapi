@@ -14,6 +14,8 @@ AuthRouter = APIRouter(tags=['Authorization'])
 
 @AuthRouter.post('/registration')
 async def registration(user: UserRegister):
+    if User.get_or_none(username=user.username) is not None:
+        return Response(status_code=402, content='User with that username exists')
     User.create(**user.dict())
     encoded = encode_user(user)
     if encoded is None:
@@ -23,8 +25,6 @@ async def registration(user: UserRegister):
 
 @AuthRouter.post('/login')
 async def login(user: UserLogin):
-    if User.get_or_none(username=user.username) is None:
-        return Response(status_code=403, content={
-            'error': 'No such account.'
-        })
+    if User.get_or_none(username=user.username,password=user.password) is None:
+        return Response(status_code=403, content='No such user')
     return {'access_token': encode_user(user)}

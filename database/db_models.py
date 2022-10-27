@@ -38,6 +38,7 @@ class Todos(BaseModel):
     title = TextField()
     text = TextField()
     deadline_date = DateField()
+    start_date = DateField()
     status = TextField()
 
 

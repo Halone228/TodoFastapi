@@ -1,4 +1,4 @@
-from fastapi import Depends, Request, Response
+from fastapi import Depends, Request, Response, Body
 from api.auth import dep, JWTBearer
 from database import pd_models, db_models
 from playhouse.shortcuts import model_to_dict
@@ -18,8 +18,7 @@ async def create_todo(group_id: int,
 
 
 @RestRouter.post('/update_status/{todo_id}')
-async def update_status(todo_id: int, req: Request, user: JWTBearer = Depends(dep)):
-    status = (await req.json()).get('status')
+async def update_status(todo_id: int, status: pd_models.Statuses = Body(default=None), user: JWTBearer = Depends(dep)):
     if status is None:
         return Response(status_code=500,content={
             'error': 'Dont set status'

@@ -1,10 +1,21 @@
 import datetime
+import time
+from enum import Enum
 
 from pydantic import BaseModel, validator, ValidationError, EmailStr, Field
 from .db_models import User as User_db
 from typing import Optional as optional
 
 _T_id = int | str
+
+
+class Statuses(str, Enum):
+    passive = "passive"
+    important = "important"
+    in_progress = "in_progress"
+    done = "done"
+    deadline_close = "deadline_close"
+    too_late = "too_late"
 
 
 class UserBase(BaseModel):
@@ -42,7 +53,8 @@ class ToDoBase(BaseModel):
     title: str
     text: str
     deadline_date: datetime.date
-    status: str
+    start_date: datetime.date
+    status: Statuses
 
 
 class ToDo(ToDoBase):

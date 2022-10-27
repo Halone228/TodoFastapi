@@ -47,7 +47,7 @@ class ToDoBase(BaseModel):
 
 class ToDo(ToDoBase):
     id: optional[_T_id]
-    group_id: _T_id
+    group: _T_id
 
 
 class GroupBase(BaseModel):

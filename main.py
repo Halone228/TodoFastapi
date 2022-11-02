@@ -14,7 +14,7 @@ app.include_router(AuthRouter)
 app.include_router(RestRouter)
 
 
-
+uvicorn.run(app)
 
 
 

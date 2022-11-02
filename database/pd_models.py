@@ -26,15 +26,6 @@ class UserBase(BaseModel):
 class UserRegister(UserBase):
     email: EmailStr
 
-    @validator('username')
-    def validate_username(cls, username: str):
-        username.strip()
-        user = User_db.get_or_none(username=username)
-        if user is None:
-            return username
-        else:
-            raise ValidationError
-
     class Config:
         schema_extra = {
             'example': {

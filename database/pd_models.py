@@ -24,7 +24,7 @@ class UserBase(BaseModel):
 
 
 class UserRegister(UserBase):
-    email: EmailStr
+    pass
 
     class Config:
         schema_extra = {
@@ -54,10 +54,8 @@ class ToDo(ToDoBase):
 
 
 class GroupBase(BaseModel):
-    group_title: str
-    background_color: str
-    title_color: str
-    text_shadow: bool
+    title: str
+    color_scheme: int
 
 
 class Group(GroupBase):

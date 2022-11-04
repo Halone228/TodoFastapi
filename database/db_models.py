@@ -5,7 +5,8 @@ from peewee import (
     TextField,
     ForeignKeyField,
     DateField,
-    BooleanField
+    BooleanField,
+    IntegerField
 )
 
 db = SqliteDatabase('main.db')
@@ -20,16 +21,13 @@ class User(BaseModel):
     id = AutoField(primary_key=True)
     username = TextField(unique=True)
     password = TextField()
-    email = TextField(unique=True)
 
 
 class Group(BaseModel):
     id = AutoField(primary_key=True)
-    group_title = TextField()
-    background_color = TextField()
-    title_color = TextField()
+    title = TextField()
     user = ForeignKeyField(User, field='id', on_delete="CASCADE")
-    text_shadow = BooleanField(default=False)
+    color_scheme = IntegerField()
 
 
 class Todos(BaseModel):

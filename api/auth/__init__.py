@@ -4,6 +4,7 @@ from fastapi.responses import RedirectResponse, Response, JSONResponse
 from database.pd_models import UserLogin, UserRegister
 from database.db_models import User
 from .utils import encode_user, JWTBearer
+import bcrypt
 
 
 dep = JWTBearer()

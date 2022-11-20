@@ -17,7 +17,8 @@ AuthRouter = APIRouter(tags=['Authorization'])
 async def registration(user: UserRegister):
     if User.get_or_none(username=user.username) is not None:
         return JSONResponse(status_code=403, content={
-            'message': 'User exists'
+            'error': '0',
+            'desc': 'User exists!'
             })
     User.create(**user.dict())
     encoded = encode_user(user)
@@ -30,6 +31,7 @@ async def registration(user: UserRegister):
 async def login(username: str, password: str):
     if User.get_or_none(username=username,password=password) is None:
         return JSONResponse(status_code=403, content={
-            'message': 'User dont exists'
+            'error': '0',
+            'desc': 'User dont exists'
             })
     return {'access_token': encode_user(UserLogin(username=username, password=password))}

@@ -4,7 +4,7 @@ from peewee import (
     Model,
     TextField,
     ForeignKeyField,
-    DateField,
+    DateTimeField,
     BooleanField,
     IntegerField
 )
@@ -35,8 +35,8 @@ class Todos(BaseModel):
     group = ForeignKeyField(Group, field='id', on_delete='CASCADE')
     title = TextField()
     text = TextField()
-    deadline_date = DateField()
-    start_date = DateField()
+    deadline_datetime = DateTimeField()
+    start_datetime = DateTimeField()
     status = TextField()
 
 

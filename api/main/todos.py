@@ -17,14 +17,11 @@ async def create_todo(group_id: int,
     return pd_models.ToDo(**model_to_dict(created, max_depth=0))
 
 
-@RestRouter.post('/update_status/{todo_id}')
-async def update_status(todo_id: int, status: pd_models.Statuses = Body(default=None), user: JWTBearer = Depends(dep)):
-    if status is None:
-        return Response(status_code=500,content={
-            'error': 'Dont set status'
-        })
-    todo = db_models.Todos.get(id=todo_id)
-    todo.status = status
+@RestRouter.post('/update')
+async def update_status(todo_new: pd_models.ToDo, user: JWTBearer = Depends(dep)):
+    todo = db_models.Todos(**todo_new.dict())
+    if todo.user.username != user.username:
+        return Response(status_code=403)
     todo.save()
 
 

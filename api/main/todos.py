@@ -17,7 +17,7 @@ async def create_todo(group_id: int,
     return pd_models.ToDo(**model_to_dict(created, max_depth=0))
 
 
-@RestRouter.post('/update')
+@RestRouter.post('/update_todo')
 async def update_status(todo_new: pd_models.ToDo, user: JWTBearer = Depends(dep)):
     todo = db_models.Todos(**todo_new.dict())
     if todo.user.username != user.username:

@@ -8,6 +8,20 @@ from fastapi import APIRouter
 RestRouter = APIRouter(tags=['Todo'])
 
 
+@RestRouter.get('/get_group_todo/{group_id}')
+async def get_todo(group_id: int, 
+                    user: UserBase = Depends(dep)) -> pd_models.ToDoList:
+    group = db_models.Group.select(db_models.Group.id)\
+    .where(id=group_id)
+    if not group.user.username == user.username:
+        return Response(status_code=403)
+    return ToDoList(
+        todos=[
+            model_to_dict(todo) for todo in 
+                db_models.ToDos.select().where(group=group)]
+    )
+
+
 @RestRouter.post('/create_todo/{group_id}', response_model=pd_models.ToDo)
 async def create_todo(group_id: int,
                        todo: pd_models.ToDoBase,

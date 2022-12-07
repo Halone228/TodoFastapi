@@ -8,7 +8,7 @@ from fastapi import APIRouter
 RestRouter = APIRouter(tags=['Group'])
 
 
-@RestRouter.get('/groups', response_model=pd_models.GroupList)
+@RestRouter.get('/get_groups', response_model=pd_models.GroupList)
 async def get_group(user: pd_models.UserBase = Depends(dep)) -> pd_models.GroupList:
     groups = db_models\
         .Group\
@@ -23,7 +23,7 @@ async def get_group(user: pd_models.UserBase = Depends(dep)) -> pd_models.GroupL
             .select()\
             .join(db_models.Group)\
             .where(db_models.Group.id == group.id)
-        res_group.todos = [model_to_dict(i,max_depth=0) for i in todos]
+        res_group.todos = [todo.id for i in todos]
         res_list.append(res_group)
     return pd_models.GroupList(values=res_list)
 

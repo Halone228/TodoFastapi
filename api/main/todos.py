@@ -13,7 +13,7 @@ async def create_todo(group_id: int,
                        todo: pd_models.ToDoBase,
                        user: JWTBearer = Depends(dep)):
     created = db_models.Todos.create(**todo.dict(),
-                                     group=db_models.Group.get(id=group_id))
+                                     group=db_models.Group.get(id=group_id))    
     return pd_models.ToDo(**model_to_dict(created, max_depth=0))
 
 

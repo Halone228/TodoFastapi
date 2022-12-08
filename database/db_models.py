@@ -34,9 +34,14 @@ class Todos(BaseModel):
     id = AutoField(primary_key=True)
     group = ForeignKeyField(Group, field='id', on_delete='CASCADE')
     title = TextField()
-    text = TextField()
-    deadline_datetime = DateTimeField()
-    start_datetime = DateTimeField()
+    text = TextField()  
+
+    deadline_date = TextField()
+    deadline_time = TextField()
+
+    start_date = TextField()
+    start_time = TextField()
+
     status = TextField()
 
 

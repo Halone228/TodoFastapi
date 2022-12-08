@@ -30,8 +30,7 @@ class UserRegister(UserBase):
         schema_extra = {
             'example': {
                 'username': 'user123',
-                'password': 'asdasd1234',
-                'email': 'example@gmail.com'
+                'password': 'asdasd1234'
             }
         }
 
@@ -43,9 +42,11 @@ class UserLogin(UserBase):
 class ToDoBase(BaseModel):
     title: str
     text: str
-    deadline_date: datetime.date
-    start_date: datetime.date
-    status: Statuses
+    deadline_date: str#datetime.date
+    deadline_time: str#datetime.time
+    start_date: str#datetime.date
+    start_time: str#datetime.time
+    status: str#Statuses
 
 
 class ToDo(ToDoBase):

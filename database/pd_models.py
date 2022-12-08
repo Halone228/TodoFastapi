@@ -51,7 +51,7 @@ class ToDoBase(BaseModel):
 
 class ToDo(ToDoBase):
     id: optional[_T_id]
-    group: _T_id
+    group_id: optional[_T_id]
 
 class ToDoList(BaseModel):
     todos: list[ToDo]
@@ -63,7 +63,6 @@ class GroupBase(BaseModel):
 
 class Group(GroupBase):
     id: optional[_T_id]
-    todos: list[ToDo] = Field(default=[])
 
 
 class GroupList(BaseModel):

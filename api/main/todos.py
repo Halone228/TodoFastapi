@@ -9,16 +9,17 @@ RestRouter = APIRouter(tags=['Todo'])
 
 
 @RestRouter.get('/get_group_todo/{group_id}')
-async def get_todo(group_id: int, 
-                    user: UserBase = Depends(dep)) -> pd_models.ToDoList:
-    group = db_models.Group.select(db_models.Group.id)\
-    .where(id=group_id)
+async def get_todo(group_id: int,
+                    user: pd_models.UserBase = Depends(dep)) -> pd_models.ToDoList:
+    group = db_models.Group.get(id=group_id)
     if not group.user.username == user.username:
         return Response(status_code=403)
-    return ToDoList(
+    return pd_models.ToDoList(
         todos=[
-            model_to_dict(todo) for todo in 
-                db_models.ToDos.select().where(group=group)]
+            model_to_dict(todo, max_depth=0) for todo in
+                db_models.Todos.select()\
+                .join(db_models.Group)\
+                .where(db_models.Group.id==group_id)]
     )
 
 
@@ -27,7 +28,7 @@ async def create_todo(group_id: int,
                        todo: pd_models.ToDoBase,
                        user: JWTBearer = Depends(dep)):
     created = db_models.Todos.create(**todo.dict(),
-                                     group=db_models.Group.get(id=group_id))    
+                                     group=db_models.Group.get(id=group_id))
     return pd_models.ToDo(**model_to_dict(created, max_depth=0))
 
 

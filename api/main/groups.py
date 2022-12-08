@@ -16,17 +16,8 @@ async def get_group(user: pd_models.UserBase = Depends(dep)) -> pd_models.GroupL
         .join(db_models.User)\
         .where(db_models.User.username == user.username)
     print(groups)
-    res_list = []
-    for group in groups:
-        res_group = pd_models.Group(**model_to_dict(group))
-        todos = db_models\
-            .Todos\
-            .select()\
-            .join(db_models.Group)\
-            .where(db_models.Group.id == group.id)
-        res_group.todos = [todo.id for i in todos]
-        res_list.append(res_group)
-    return pd_models.GroupList(values=res_list)
+    return pd_models.GroupList(values=[
+                        pd_models.Group(**model_to_dict(i)) for i in groups])
 
 
 @RestRouter.post('/create_group',response_model=pd_models.Group)
@@ -44,9 +35,12 @@ async def delete_group(group_id: int, user: pd_models.UserBase = Depends(dep)):
         group.delete_instance()
 
 @RestRouter.post('/update_group')
-async def update_group(, user: pd_models.UserBase = Depends(dep)):
-    group = db_models.Group.get(id=data.id)
+async def update_group(newGroup: pd_models.Group, user: pd_models.UserBase = Depends(dep)):
+    group = db_models.Group.get(id=newGroup.id)
+    print(user)
+    print(group.user.username)
     if not group.user.username == user.username:
         return Response(status_code=403)
-    group[data.field] = data.value
-    group.save()
+    # for k,v in group.dict().items():
+    #     group.__set_atrribute__(k,v)
+    db_models.Group.update(**newGroup.dict()).execute()

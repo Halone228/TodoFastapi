@@ -53,6 +53,8 @@ class ToDo(ToDoBase):
     id: optional[_T_id]
     group: _T_id
 
+class ToDoList(BaseModel):
+    todos: list[ToDo]
 
 class GroupBase(BaseModel):
     title: str

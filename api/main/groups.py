@@ -41,6 +41,6 @@ async def update_group(newGroup: pd_models.Group, user: pd_models.UserBase = Dep
     print(group.user.username)
     if not group.user.username == user.username:
         return Response(status_code=403)
-    # for k,v in group.dict().items():
-    #     group.__set_atrribute__(k,v)
+    for k,v in group.dict().items():
+        group.__set_atrribute__(k,v)
     db_models.Group.update(**newGroup.dict()).execute()

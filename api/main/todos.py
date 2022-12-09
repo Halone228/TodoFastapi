@@ -8,19 +8,28 @@ from fastapi import APIRouter
 RestRouter = APIRouter(tags=['Todo'])
 
 
-@RestRouter.get('/get_group_todo/{group_id}')
-async def get_todo(group_id: int,
-                    user: pd_models.UserBase = Depends(dep)) -> pd_models.ToDoList:
-    group = db_models.Group.get(id=group_id)
-    if not group.user.username == user.username:
-        return Response(status_code=403)
-    return pd_models.ToDoList(
-        todos=[
-            model_to_dict(todo, max_depth=0) for todo in
+delimiter = '-'
+
+
+@RestRouter.get('/get_todos/{groups_id}')
+#-
+async def get_todo(groups_id: str,
+                    user: pd_models.UserBase = Depends(dep)):
+    ids = [int(i) for i in groups_id.split(delimiter) if i.isdigit()]
+    print(ids)
+    todos = []
+    for i in ids:
+        group = db_models.Group.get(id=i)
+        # if not group.user.username == user.username:
+        #     return Response(status_code=403)
+        todos += [
+            model_to_dict(todo, max_depth=0)  for todo in
                 db_models.Todos.select()\
                 .join(db_models.Group)\
-                .where(db_models.Group.id==group_id)]
-    )
+                .where(db_models.Group.id==i)]
+    from pprint import pprint
+    pprint(todos)
+    return todos
 
 
 @RestRouter.post('/create_todo/{group_id}', response_model=pd_models.ToDo)

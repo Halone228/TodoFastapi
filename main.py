@@ -19,4 +19,4 @@ app.add_middleware(
 app.include_router(AuthRouter)
 app.include_router(RestRouter)
 
-uvicorn.run(app)
+# uvicorn.run(app, reload=True)

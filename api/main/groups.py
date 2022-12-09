@@ -15,7 +15,6 @@ async def get_group(user: pd_models.UserBase = Depends(dep)) -> pd_models.GroupL
         .select()\
         .join(db_models.User)\
         .where(db_models.User.username == user.username)
-    print(groups)
     return pd_models.GroupList(values=[
                         pd_models.Group(**model_to_dict(i)) for i in groups])
 
@@ -37,10 +36,8 @@ async def delete_group(group_id: int, user: pd_models.UserBase = Depends(dep)):
 @RestRouter.post('/update_group')
 async def update_group(newGroup: pd_models.Group, user: pd_models.UserBase = Depends(dep)):
     group = db_models.Group.get(id=newGroup.id)
-    print(user)
-    print(group.user.username)
     if not group.user.username == user.username:
         return Response(status_code=403)
-    for k,v in group.dict().items():
-        group.__set_atrribute__(k,v)
-    db_models.Group.update(**newGroup.dict()).execute()
+    group = db_models.Group(**newGroup.dict())
+    group.save()
+    

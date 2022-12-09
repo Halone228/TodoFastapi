@@ -47,11 +47,10 @@ class ToDoBase(BaseModel):
     start_date: str#datetime.date
     start_time: str#datetime.time
     status: str#Statuses
-
+    group: optional[_T_id]
 
 class ToDo(ToDoBase):
     id: optional[_T_id]
-    group_id: optional[_T_id]
 
 class ToDoList(BaseModel):
     todos: list[ToDo]
@@ -66,6 +65,6 @@ class Group(GroupBase):
 
 
 class GroupList(BaseModel):
-    values: list[Group]
+    values: list
 
 

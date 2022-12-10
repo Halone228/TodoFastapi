@@ -33,5 +33,5 @@ async def login(username: str, password: str):
         return JSONResponse(status_code=403, content={
             'error': '0',
             'desc': 'User dont exists'
-            })
+        })
     return {'access_token': encode_user(UserLogin(username=username, password=password))}

@@ -21,7 +21,7 @@ def decode(token: str):
 
 def encode_user(user: UserBase):
     return encode({
-        'expires': time.time() + (60*60*24*15),
+        'expires': time.time() + (60*60*24*10),
         'username': user.username,
         'password': user.password
     })

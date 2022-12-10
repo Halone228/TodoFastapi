@@ -40,4 +40,3 @@ async def update_group(newGroup: pd_models.Group, user: pd_models.UserBase = Dep
         return Response(status_code=403)
     group = db_models.Group(**newGroup.dict())
     group.save()
-    

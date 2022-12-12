@@ -29,9 +29,14 @@ async def registration(user: UserRegister):
 
 @AuthRouter.get('/login')
 async def login(username: str, password: str):
-    if User.get_or_none(username=username,password=password) is None:
+    if (user := User.get_or_none(username=username)) is None:
         return JSONResponse(status_code=403, content={
             'error': '0',
             'desc': 'User dont exists'
+        })
+    if user.password != password:
+        return JSONResponse(status_code=403, content={
+            'error': '1',
+            'desc': 'Wrong password'
         })
     return {'access_token': encode_user(UserLogin(username=username, password=password))}

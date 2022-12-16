@@ -6,7 +6,9 @@ from peewee import (
     ForeignKeyField,
     DateTimeField,
     BooleanField,
-    IntegerField
+    IntegerField,
+    BlobField,
+    UUIDField
 )
 
 db = SqliteDatabase('main.db')
@@ -17,10 +19,17 @@ class BaseModel(Model):
         database = db
 
 
+class ImageStorage(BaseModel):
+    id = UUIDField()
+    bin = BlobField()
+
+
+
 class User(BaseModel):
     id = AutoField(primary_key=True)
     username = TextField(unique=True)
     password = TextField()
+    bg_image = ForeignKeyField(ImageStorage, field='id', on_delete='CASCADE', null=True)
 
 
 class Group(BaseModel):
@@ -46,6 +55,8 @@ class Todos(BaseModel):
 
 
 def init():
+    # User.drop_table() 
     User.create_table()
     Group.create_table()
     Todos.create_table()
+    ImageStorage.create_table()

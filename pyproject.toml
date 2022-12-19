@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "todofastapi"
+version = "0.1.0"
+description = ""
+authors = ["Halone", "Readykk"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+fastapi = "^0.88.0"
+peewee = "^3.15.4"
+#api = {path = "./api"}
+#database = {path = "./database"}
+uvicorn = "^0.20.0"
+pyjwt = "^2.6.0"
+bcrypt = "^4.0.1"
+
+[tool.poetry.scripts]
+start_dev = "todofastapi.main:start_dev"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
